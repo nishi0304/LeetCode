@@ -2,25 +2,32 @@ import java.util.*;
 
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        if (nums1.length > nums2.length) {
-            return intersect(nums2, nums1);
-        }
-        HashMap<Integer, Integer> map = new HashMap<>();
 
-        for (int num : nums1) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
 
-        int[] temp = new int[nums1.length];
-        int index = 0;
+        List<Integer> list = new ArrayList<>();
 
-        for (int num : nums2) {
-            if (map.getOrDefault(num, 0) > 0) {
-                temp[index++] = num;
-                map.put(num, map.get(num) - 1);
+        int i = 0, j = 0;
+
+        while (i < nums1.length && j < nums2.length) {
+
+            if (nums1[i] < nums2[j]) {
+                i++;
+            } else if (nums1[i] > nums2[j]) {
+                j++;
+            } else {
+                list.add(nums1[i]);
+                i++;
+                j++;
             }
         }
 
-        return Arrays.copyOf(temp, index);
+        int[] ans = new int[list.size()];
+        for (int k = 0; k < list.size(); k++) {
+            ans[k] = list.get(k);
+        }
+
+        return ans;
     }
 }
