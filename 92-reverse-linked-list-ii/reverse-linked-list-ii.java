@@ -10,22 +10,22 @@
  */
 class Solution {
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        ListNode curr = head;
-        List<Integer> values = new ArrayList<>();
-        for (int i = 1; i <= right; i++) {
-            if (i >= left) {
-                values.add(curr.val);
-            }
-            curr = curr.next;
+        if (head == null || left == right) {
+            return head;
         }
-        Collections.reverse(values);
-        curr = head;
-        for (int i = 1; i <= right; i++) {
-            if (i >= left) {
-                curr.val = values.remove(0);
-            }
-            curr = curr.next;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        for (int i = 1; i < left; i++) {
+            prev = prev.next;
         }
-        return head;
+        ListNode curr = prev.next;
+        for (int i = 0; i < right - left; i++) {
+            ListNode next = curr.next;
+            curr.next = next.next;
+            next.next = prev.next;
+            prev.next = next;
+        }
+        return dummy.next;
     }
 }
